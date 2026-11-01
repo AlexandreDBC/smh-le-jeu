@@ -1,0 +1,36 @@
+@startuml diagramme_etats
+title Diagramme d'états-transitions du jeu
+
+[*] --> MenuState
+
+MenuState --> PlayingState : Nouvelle partie
+MenuState --> [*] : Quitter
+
+PlayingState --> PauseState : Touche pause
+PlayingState --> InventoryState : Touche inventaire
+PlayingState --> GameOverState : Vie du joueur = 0
+
+PauseState --> PlayingState : Reprendre
+PauseState --> MenuState : Retour au menu
+
+InventoryState --> PlayingState : Fermer inventaire
+
+GameOverState --> MenuState : Retour au menu
+GameOverState --> [*] : Quitter
+
+MenuState : Affiche le menu principal
+MenuState : (Nouvelle partie, Paramètres, Quitter)
+
+PlayingState : Boucle de jeu active
+PlayingState : (Déplacement, ramassage, interaction)
+
+PauseState : Jeu figé
+PauseState : (Reprendre, Retour menu)
+
+InventoryState : Navigation dans l'inventaire
+InventoryState : (Équiper, consommer, jeter)
+
+GameOverState : Affiche le résultat
+GameOverState : (Extension future)
+
+@enduml

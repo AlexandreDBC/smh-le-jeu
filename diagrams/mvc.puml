@@ -1,0 +1,115 @@
+@startuml
+skinparam ArrowFontSize 20
+
+title Diagramme de classes - Increment
+
+
+package controller {
+  class GameController {
+    - gameEngine : GameEngine
+    - gameView : GameView
+    + getGameView() : GameView
+    + startGame() : void
+    + rebuildActions() : void
+    + handleInput(input : String) : void
+    + pauseGame() : void
+    + resumeGame() : void
+    + showInventory() : void
+    + quitToMenu() : void
+    + handlePlayingInput(keyType : KeyType) : boolean
+    + handlePauseInput(keyType : KeyType) : boolean
+    + handleInventoryInput(keyType : KeyType) : boolean
+    - handlePauseSelection(option : PauseOption) : boolean
+    - handleInventorySelection(item : Item) : boolean
+  }
+
+  class MenuController {
+    - gameController : GameController
+    + MenuController(gameController : GameController)
+    + handleInput(keyType : KeyType) : boolean
+    - handleSelection(option : MenuOption) : boolean
+    + newGame() : void
+    + configureSettings() : void
+    + exit() : void
+  }
+  
+  MenuController --> "1" GameController
+
+}
+
+
+package "utils" {
+  enum Direction {
+    UP
+    DOWN
+    LEFT
+    RIGHT
+  }
+}
+
+
+package "model.core"{
+
+    class GameEngine
+}
+
+package "view" {
+  interface GameView {
+    + update() : void
+    + displayGame() : void
+    + displayMainMenu() : void
+    + displayPauseMenu() : void
+    + displayInventory() : void
+  }
+
+  class AdapterFromTerminalToGameView {
+    - screen : Screen
+    + getScreen() : Screen
+    + update() : void
+    + displayGame() : void
+    + displayMainMenu() : void
+    + displayPauseMenu() : void
+    + displayInventory() : void
+  }
+
+}
+
+ class ScreenUI{
+ }
+
+ class JFrame{
+ }
+  
+
+package "utils.observer" {
+  interface Listener {
+    + update() : void
+  }
+
+  interface Listenable {
+    + addListener(listener : Listener) : void
+    + removeListener(listener : Listener) : void
+  }
+
+  abstract class AbstractListenable {
+    - listeners : List<Listener>
+    + addListener(listener : Listener) : void
+    + removeListener(listener : Listener) : void
+    # notifyListeners() : void
+  }
+}
+
+GameView ..|> Listener
+AdapterFromTerminalToGameView ..|> GameView
+AbstractListenable ..|> Listenable
+GameEngine --|> AbstractListenable
+
+GameController --> "1" GameEngine
+GameController --> "1" GameView
+
+AdapterFromTerminalToGameView --> "1" ScreenUI
+
+AbstractListenable --> "0..*" Listener
+
+
+@enduml

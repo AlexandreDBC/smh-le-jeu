@@ -1,0 +1,173 @@
+@startuml
+skinparam ArrowFontSize 20
+
+title Diagramme de classes - Model Core
+
+
+package "model.core" {
+  interface GameState {
+    + enter() : void
+    + update() : void
+    + exit() : void
+  }
+
+  abstract class "AbstractListState<T>" as AbstractListState {
+    - selectedIndex : int
+    # getItems() : List<T>
+    + enter() : void
+    + update() : void
+    + exit() : void
+    + getSelectedIndex() : int
+    + nextOption() : void
+    + previousOption() : void
+    # resetSelectedIndex() : void
+    + getSelectedOption() : T
+  }
+
+  class Game {
+    - player : Player
+    - campus : Campus
+    - level : Level
+    - actions : List<Command>
+    - selectedIndex : int
+    + {static} builder() : GameBuilder
+    + getPlayer() : Player
+    + getCampus() : Campus
+    + getLevel() : Level
+    + getActions() : List<Command>
+    + getSelectedIndex() : int
+    + setSelectedIndex(selectedIndex : int) : void
+    + setActions(actions : List<Command>) : void
+    + start() : void
+    + update() : void
+    + isFinished() : boolean
+  }
+
+  class GameBuilder {
+    - player : Player
+    - campus : Campus
+    - level : Level
+    + withPlayer(player : Player) : GameBuilder
+    + withPlayer(name : String) : GameBuilder
+    + withPlayer(name : String, position : Position) : GameBuilder
+    + withCampus(campus : Campus) : GameBuilder
+    + withLevel(level : Level) : GameBuilder
+    + build() : Game
+  }
+
+  class GameEngine {
+    - instance : GameEngine
+    - currentState : GameState
+    - currentGame : Game
+    - menuState : MenuState
+    - playingState : PlayingState
+    - pauseState : PauseState
+    - gameOverState : GameOverState
+    - inventoryState : InventoryState
+    + {static} getInstance() : GameEngine
+    + setState(state : GameState) : void
+    + update() : void
+    + setCurrentGame(game : Game) : void
+    + getCurrentGame() : Game
+    + getCurrentState() : GameState
+    + getMenuState() : MenuState
+    + getPlayingState() : PlayingState
+    + getInventoryState() : InventoryState
+    + getPauseState() : PauseState
+    + getGameOverState() : GameOverState
+  }
+
+  class GameOverState {
+    + enter() : void
+    + update() : void
+    + exit() : void
+  }
+
+  class InventoryState {
+    - inventory : Inventory
+    + getInventory() : Inventory
+    # getItems() : List<Item>
+    + enter() : void
+    + update() : void
+    + setInventory(inventory : Inventory) : void
+  }
+
+  enum Level {
+    EASY
+    MEDIUM
+    HARD
+  }
+
+  enum MenuOption {
+    NOUVELLE_PARTIE
+    PARAMETRES
+    QUITTER
+    --
+    - label : String
+    + getLabel() : String
+  }
+
+  class MenuState {
+    - options : List<MenuOption>
+    # getItems() : List<MenuOption>
+    + getOptions() : MenuOption[]
+  }
+
+  enum PauseOption {
+    REPRENDRE
+    MENU
+    --
+    - label : String
+    + getLabel() : String
+  }
+
+  class PauseState {
+    - options : List<PauseOption>
+    # getItems() : List<PauseOption>
+    + getOptions() : PauseOption[]
+  }
+
+  class PlayingState {
+    + enter() : void
+    + update() : void
+    + exit() : void
+  }
+  
+  GameState <|.. AbstractListState
+  GameState <|.. PlayingState
+  GameState <|.. GameOverState
+  AbstractListState <|-- MenuState
+  AbstractListState <|-- PauseState
+  AbstractListState <|-- InventoryState
+  
+  GameEngine --> "1..*" GameState
+  GameEngine --> "1" Game
+  MenuState --> "*" MenuOption
+  PauseState --> "*" PauseOption
+  
+
+Game --> Level
+Game ..> GameBuilder
+
+
+}
+
+package "model.command"{
+  class Command
+}
+
+package "model.entity" {
+  class Player
+}
+
+package "model.campus"{
+  class Campus
+}
+
+
+Command "0..*" --o Game: actions
+Game *-- Player
+Game *-- Campus
+
+
+@enduml

@@ -1,0 +1,80 @@
+@startuml
+skinparam ArrowFontSize 20
+
+title Diagramme de classes - Model World
+package "model.world" {
+  class Building {
+    - isLocked : boolean
+    + isLocked() : boolean
+  }
+
+  class Campus {
+    - zones : List<Zone>
+    + addZone(zone : Zone) : void
+    + getZones() : List<Zone>
+  }
+
+  class CampusFactory {
+    + {static} createEnsimag(player : Player) : Campus
+  }
+
+  class Cell {
+    - accessible : boolean
+    - item : Item
+    + isAccessible() : boolean
+    + getItem() : Item
+    + removeItem() : Item
+    + addItem(item : Item) : void
+    + hasItem() : boolean
+  }
+
+  class Position {
+    - zone : Zone
+    - x : int
+    - y : int
+    + getZone() : Zone
+    + getX() : int
+    + getY() : int
+  }
+
+  class Street {
+  }
+
+  abstract class Zone {
+    - name : String
+    - width : int
+    - height : int
+    - connectedZones : List<Zone>
+    - grid : Cell[][]
+    + getWidth() : int
+    + getHeight() : int
+    + getName() : String
+    + getConnectedZones() : List<Zone>
+    + connectTo(other : Zone) : void
+    + getCellAt(x : int, y : int) : Cell
+    + removeItem(item : Item) : void
+    + getItems() : List<Item>
+  }
+}
+
+package "model.inventory" {
+    abstract class Item
+}
+
+package "model.entity" {
+    class Player
+}
+
+Campus o-- "0..*" Zone
+Position --> Zone
+Zone *-- Cell : grid
+Zone o-- "0..*" Zone : connectedZones
+Cell --> "1" Item
+Zone <|-- Building
+Zone <|-- Street
+
+CampusFactory ..> Campus
+CampusFactory ..> Zone
+CampusFactory ..> Player
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+skinparam ArrowFontSize 20
+
+title Diagramme de classes - Model Entity
+
+package "model.entity" {
+  class Player {
+    - name : String
+    - health : int
+    - position : Position
+    - inventory : Inventory
+    - equippedWeapon : Weapon
+    - equippedArmor : Armor
+    + move(direction : Direction) : void
+    + getName() : String
+    + getPosition() : Position
+    + getInventory() : Inventory
+    + setPosition(position : Position) : void
+  }
+}
+
+package "model.inventory"{
+    class Inventory
+    class Weapon
+    class Armor
+}
+
+package "model.world"{
+    class Position
+}
+
+
+
+Player *-- Inventory
+Player -left-> "1" Position
+Player --> "0..1" Weapon
+Player --> "0..1" Armor
+
+@enduml

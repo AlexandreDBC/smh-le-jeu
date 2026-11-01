@@ -1,0 +1,112 @@
+@startuml
+
+skinparam ArrowFontSize 20
+
+title Architecture logique MVC
+
+
+
+
+
+package Controller{
+ class GameController{
+ }
+
+}
+
+package Model{
+ class GameModel
+ GameController --> "1" GameModel : modifie >
+}
+
+package "utils.observer" {
+    
+        interface Listenable {
+            + addListener(listener : Listener) : void
+            + removeListener(listener : Listener) : void
+        }
+    
+        abstract class AbstractListenable {
+            - listeners : List<Listener>
+            + addListener(listener : Listener) : void
+            + removeListener(listener : Listener) : void
+            + notifyListeners() : void
+        }
+    
+        interface Listener <<interface>> {
+            + update() : void
+        }
+    
+        AbstractListenable ..|> Listenable
+        
+        AbstractListenable --> "*" Listener
+        
+    
+}
+ 
+
+
+package View{
+
+ interface GameView{
+   + displayGame()
+   + displayMainMenu()
+   + displayPauseMenu()
+   + displayCombat()
+   + displayInventaire()
+ }
+
+ class AdapterFromTerminalToGameView{
+ }
+
+ class AdapterFromJFrameToGameView{
+ }
+
+
+  
+ 
+ GameView <|.. AdapterFromTerminalToGameView
+ 
+ GameView <|.. AdapterFromJFrameToGameView
+ 
+ 
+
+
+}
+
+ class TerminalUI{
+ }
+
+ class JFrame{
+ }
+ 
+ AdapterFromTerminalToGameView --> "1" TerminalUI
+ AdapterFromJFrameToGameView --> "1" JFrame
+
+GameController --> "1" GameView : utilise >
+
+GameModel --|> AbstractListenable
+GameView ..|> Listener
+
+
+ note top of GameModel
+  Indépendant 
+  de toute vue
+  ou contrôleur
+ end note
+
+
+note bottom of AdapterFromTerminalToGameView
+<b>Pattern Adapter</b>
+Adapte TerminalUI
+vers GameView
+end note
+
+note bottom of AdapterFromJFrameToGameView
+<b>Pattern Adapter</b>
+Adapte JFrame
+vers GameView
+end note
+
+
+@enduml
