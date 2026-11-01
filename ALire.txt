@@ -1,0 +1,76 @@
+================================================================================
+                          SMH LE JEU - Fichier A Lire
+================================================================================
+
+Projet : Jeu d'aventures dans une ville
+Cours  : Analyse et Conception Objet de Logiciels
+Ecole  : Grenoble INP - Ensimag, 2e annee, Filiere ISI (2025-2026)
+
+================================================================================
+                        CONTENU DU RENDU
+================================================================================
+
+1. RAPPORT (compte-rendu/)
+   - Cahier des charges
+   - Document d'analyse (cas d'utilisation, diagrammes de sequence systeme,
+     diagramme de classes d'analyse)
+   - Document de conception (architecture logique, description de l'increment,
+     conception detaillee)
+   - Manuel utilisateur
+   - Bilan sur les outils de modelisation
+
+2. DIAGRAMMES UML (diagrams/)
+   - model_core.puml       : Diagramme de classes du modele (coeur du jeu)
+   - entity.puml           : Diagramme de classes des entites (joueur, combattants)
+   - inventory.puml        : Diagramme de classes de l'inventaire (items, armes, armures)
+   - world.puml            : Diagramme de classes du monde (campus, zones, cellules)
+   - commands.puml         : Diagramme de classes des commandes
+   - etats.puml            : Diagramme d'etats-transitions du jeu
+   - mvc.puml              : Diagramme de l'architecture MVC
+   - architecture_logique.puml : Diagramme de l'architecture logique
+   Les fichiers .png correspondants sont egalement fournis.
+
+3. CODE SOURCE (src/)
+   - App.java              : Point d'entree de l'application
+   - controller/           : Controleurs du jeu (GameController, MenuController)
+   - model/
+     - core/               : Moteur du jeu (Game, GameEngine, GameBuilder, etats)
+     - command/            : Commandes du joueur (deplacer, ramasser, equiper, etc.)
+     - entity/             : Entites du jeu (Player, Combatant)
+     - inventory/          : Systeme d'inventaire (Item, Weapon, Armor, Key, Food, etc.)
+     - world/              : Monde du jeu (Campus, Zone, Street, Building, Cell)
+   - view/                 : Vue du jeu (interface textuelle via terminal)
+   - utils/                : Utilitaires (Direction, pattern Observer)
+
+4. CODE TESTS (tests/)
+   - controller/          
+   - model/
+   - view/       
+
+5. BIBLIOTHEQUE EXTERNE (lib/)
+   - lanterna-3.2.0-alpha1.jar : Bibliotheque pour l'interface textuelle en terminal
+   - junit-platform-console-standalone.jar : Framework pour l'exécution de tests unitaires 
+
+6. AUTRES FICHIERS
+   - Makefile              : Fichier de compilation et d'execution
+   - README.md             : Description generale du projet
+
+================================================================================
+                  COMPILATION ET EXECUTION
+================================================================================
+
+Compilation :
+   make compile
+
+Execution :
+   make run
+   
+Execution :
+   make test	
+
+Nettoyage des fichiers compiles :
+   make clean
+
+Note : 
+La bibliotheque lanterna et junit (lib/lanterna-3.2.0-alpha1.jar et lib/junit-platform-console-standalone.jar) sont inclus
+dans le rendu et n'ont pas besoin d'être installée séparement.

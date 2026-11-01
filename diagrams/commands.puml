@@ -1,0 +1,71 @@
+@startuml
+skinparam ArrowFontSize 20
+title Diagramme de classes - Model Command
+
+
+package "model.command" {
+  interface Command {
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class ChangeZoneCommand {
+    - player : Player
+    - destination : Zone
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class ConsumeCommand {
+    - player : Player
+    - food : Food
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class DropCommand {
+    - player : Player
+    - item : Item
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class EquipCommand {
+    - player : Player
+    - item : Equipable
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class MoveCommand {
+    - player : Player
+    - direction : Direction
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class PickUpCommand {
+    - player : Player
+    - cell : Cell
+    + getItem() : Item
+    + getLabel() : String
+    + execute() : void
+  }
+
+  class UnEquipCommand {
+    - player : Player
+    - item : Equipable
+    + getLabel() : String
+    + execute() : void
+  }
+}
+
+Command <|.. ChangeZoneCommand
+Command <|.. ConsumeCommand
+Command <|.. DropCommand
+Command <|.. EquipCommand
+Command <|.. MoveCommand
+Command <|.. PickUpCommand
+Command <|.. UnEquipCommand
+
+@enduml

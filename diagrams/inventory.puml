@@ -1,0 +1,69 @@
+@startuml
+skinparam ArrowFontSize 20
+
+title Diagramme de classes - Inventory
+
+package "model.inventory" {
+  abstract class Item {
+    - name : String
+    - description : String
+    + getName() : String
+    + getDescription() : String
+  }
+
+  abstract class Equipable {
+    - equipped : boolean
+    + isEquipped() : boolean
+    + equip() : void
+    + unequip() : void
+  }
+
+  class Armor {
+    - protection : int
+    + getProtection() : int
+  }
+
+  class Food {
+    - heal : int
+    + getHeal() : int
+  }
+
+  class Inventory {
+    - items : List<Item>
+    - maxCapacity : int
+    + addItem(item : Item) : void
+    + removeItem(item : Item) : void
+    + getItems() : List<Item>
+    + equipItem(item : Item) : void
+  }
+
+  class Key {
+  }
+
+  class PowerUp {
+    - effect : int
+    + getEffect() : int
+  }
+
+  class Weapon {
+    - damage : int
+    + getDamage() : int
+  }
+}
+
+package "model.world"{
+    class Position
+}
+
+Inventory *-- "0..*" Item
+
+Item <|-- Equipable
+Item <|-- Food
+Item <|-- Key
+Equipable <|-- Armor
+Equipable <|-- PowerUp
+Equipable <|-- Weapon
+
+Item --> "1" Position
+
+@enduml
