@@ -1,8 +1,5 @@
 # ⚔️ smh-le-jeu
 
-[![Academic Project](https://img.shields.io/badge/Type-Academic%20Project-blue?style=for-the-badge)](https://github.com/AlexandreDBC)
-![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
-
 > *Java text-based RPG developed for the Object-Oriented Software Analysis and Design course, with a strong focus on clean MVC architecture and design patterns implementation.*
 
 ## 🎮 About the Game
